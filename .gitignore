@@ -1,2 +1,9 @@
 # vi
 *.swp
+
+# influxdb store
+influxdb/
+
+# grafana store
+grafana/
+

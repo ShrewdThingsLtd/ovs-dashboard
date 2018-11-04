@@ -27,9 +27,12 @@ function container_clean {
 
 container_clean "${ovs_dashboard_container}" 2> /dev/null
 docker run -d \
-    --name "${ovs_dashboard_container}" \
-    -p 3003:3003 \
-    -v "${influxdb_dir}":/var/lib/influxdb \
-    -v "${grafana_dir}":/var/lib/grafana \
-    -v "${root_dir}/ovs":/ovs:ro \
-    local/ovs-dashboard:latest
+	--name "${ovs_dashboard_container}" \
+	--ipc=host \
+	--privileged=true \
+	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+	-p 3003:3003 \
+	-v "${influxdb_dir}":/var/lib/influxdb \
+	-v "${grafana_dir}":/var/lib/grafana \
+	-v "${root_dir}/ovs":/ovs:ro \
+	local/ovs-dashboard:latest

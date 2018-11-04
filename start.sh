@@ -1,5 +1,14 @@
 #!/bin/bash
 
+TGT_IP=${1:-172.16.10.152}
+TGT_USER=${1:-root}
+
+echo
+echo -n "Password for user ${TGT_USER} on target ${TGT_IP}:"
+echo
+read -s TGT_PASS
+
+
 root_dir=$(pwd)
 influxdb_dir="${root_dir}/influxdb"
 grafana_dir="${root_dir}/grafana"
@@ -22,5 +31,5 @@ docker run -d \
     -p 3003:3003 \
     -v "${influxdb_dir}":/var/lib/influxdb \
     -v "${grafana_dir}":/var/lib/grafana \
+    -v "${root_dir}/ovs":/ovs:ro \
     local/ovs-dashboard:latest
-

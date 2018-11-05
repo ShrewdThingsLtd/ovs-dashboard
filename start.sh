@@ -35,6 +35,7 @@ docker run -d \
 	--privileged=true \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 	-p 3003:3003 \
+	-p 8086:8086 \
 	-v "${influxdb_dir}":/var/lib/influxdb \
 	-v "${grafana_dir}":/var/lib/grafana \
 	-v "${root_dir}/ovs":/ovs:ro \

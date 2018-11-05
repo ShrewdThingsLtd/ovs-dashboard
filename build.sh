@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-function docker_clean {
+function image_clean {
 
 	docker volume rm $(docker volume ls -qf dangling=true)
 	#docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
@@ -11,5 +11,4 @@ function docker_clean {
 }
 
 docker build --rm -t local/ovs-dashboard ./
-docker_clean 2> /dev/null
-
+image_clean 2> /dev/null

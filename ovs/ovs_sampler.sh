@@ -2,10 +2,7 @@
 
 set +x
 
-TGT_IP=172.16.10.152
-TGT_USER=root
-TGT_PASS=devops123
-
+log_file="/tmp/ovs_monitor.log"
 
 function exec_remote {
 
@@ -13,8 +10,10 @@ function exec_remote {
 	local remote_ip=$2
 	local remote_user=$3
 	local remote_pass=$4
+	local timestamp=$(date +"%Y.%m.%d %H:%M:%S")
 	
-	echo "$(sshpass -p ${remote_pass} ssh ${remote_user}@${remote_ip} ${remote_cmd})"
+	#echo "[${timestamp}] sshpass -p ${remote_pass} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${remote_user}@${remote_ip} ${remote_cmd}" >>${log_file} 2>&1
+	echo "$(sshpass -p ${remote_pass} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${remote_user}@${remote_ip} ${remote_cmd})"
 }
 
 function exec_tgt {

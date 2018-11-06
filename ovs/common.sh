@@ -1,7 +1,5 @@
 #!/bin/bash
 
-log_file="/tmp/ovs_monitor.log"
-
 urlencode() {
 	# urlencode <string>
 	old_lc_collate=$LC_COLLATE
@@ -34,7 +32,6 @@ function exec_remote {
 	local remote_pass=$4
 	local timestamp=$(date +"%Y.%m.%d %H:%M:%S")
 	
-	#echo "[${timestamp}] sshpass -p ${remote_pass} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${remote_user}@${remote_ip} ${remote_cmd}" >>${log_file} 2>&1
 	echo "$(sshpass -p ${remote_pass} ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${remote_user}@${remote_ip} ${remote_cmd})"
 }
 
@@ -61,25 +58,19 @@ function influxdb_write {
 		do
 			sleep 2
 		done
-		echo \
-		"curl \
-			-XPOST \
-			\"${db_proto}://${db_ip}:${db_port}/query\" \
-			--data-urlencode \
-			\"q=CREATE DATABASE ${db_name}\"" \
-			>>"${log_file}" 2>&1
 		curl \
 			-XPOST \
 			"${db_proto}://${db_ip}:${db_port}/query" \
 			--data-urlencode \
-			"q=CREATE DATABASE ${db_name}" \
-			>>"${log_file}" 2>&1
+			"q=CREATE DATABASE ${db_name}"
 	else
+		set +x
 		curl \
 			-XPOST \
 			"${db_proto}://${db_ip}:${db_port}/write?db=${db_name}" \
 			--data-binary \
 			"${points_list}"
+		set +x
 	fi
 }
 

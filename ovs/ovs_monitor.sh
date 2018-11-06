@@ -1,13 +1,14 @@
 #!/bin/bash
 
 env_file="/tmp/ovs_monitor.env"
+log_file="/tmp/ovs_monitor.log"
 
 while [ ! -f "${env_file}" ]
 do
 	sleep 2
 done
 source "${env_file}"
-#rm -f "${env_file}"
+rm -f "${env_file}"
 
 source /ovs/common.sh
 

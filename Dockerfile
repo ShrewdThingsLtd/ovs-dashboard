@@ -1,4 +1,4 @@
-FROM philhawthorne/docker-influxdb-grafana
+FROM shrewdthingsltd/docker-influxdb-grafana
 LABEL maintainer="Erez Buchnik <erez@shrewdthings.com>"
 
 RUN apt-get -y update
